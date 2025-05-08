@@ -9,7 +9,7 @@ export default createConfig({
   ...createHatsProtocol({
     networks: {
       sepolia: {
-        rpcUrl: process.env.PONDER_RPC_URL_11155111,
+        rpcUrl: process.env.PONDER_RPC_URL_11155111 || '',
       },
       // baseSepolia: {
       //   rpcUrl: process.env.PONDER_RPC_URL_84532,
