@@ -1,0 +1,16 @@
+{
+  "name": "hats-indexer",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r build",
+    "sdk:dev": "pnpm --filter hats-ponder-sdk dev",
+    "consumer:dev": "pnpm --filter consumer dev"
+  },
+  "engines": {
+    "node": ">=18.14",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.4"
+}

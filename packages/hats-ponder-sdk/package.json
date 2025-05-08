@@ -1,0 +1,46 @@
+{
+  "name": "hats-ponder-sdk",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "abis"
+  ],
+  "scripts": {
+    "dev": "ponder dev",
+    "start": "ponder start",
+    "build": "tsup",
+    "db": "ponder db",
+    "codegen": "ponder codegen",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ponder": "^0.10.14",
+    "hono": "^4.5.0",
+    "viem": "^2.21.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.0",
+    "eslint": "^8.53.0",
+    "eslint-config-ponder": "^0.10.14",
+    "typescript": "^5.2.2",
+    "tsup": "^8.0.2"
+  },
+  "peerDependencies": {
+    "ponder": "^0.10.14"
+  },
+  "engines": {
+    "node": ">=18.14"
+  }
+}
