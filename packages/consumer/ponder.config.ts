@@ -11,9 +11,9 @@ export default createConfig({
       sepolia: {
         rpcUrl: process.env.PONDER_RPC_URL_11155111,
       },
-      baseSepolia: {
-        rpcUrl: process.env.PONDER_RPC_URL_84532,
-      },
+      // baseSepolia: {
+      //   rpcUrl: process.env.PONDER_RPC_URL_84532,
+      // },
     },
   }),
 });

@@ -62,7 +62,19 @@ Ponder >0.10 relies on the `onChainTable` function for the core indexing. Since 
 
 The consumer application can be run using Docker Compose for a consistent environment:
 
-1. Start the services:
+1. Set up environment variables:
+
+   ```bash
+   # Copy the example environment file
+   cp packages/consumer/env.example packages/consumer/.env
+
+   # Edit the .env file with your specific values:
+   # Add your RPC URLs:
+   # - For Sepolia: Use an RPC provider like Infura, Alchemy, or your own node
+   # - For Base Sepolia: Use Base's public RPC or your preferred provider
+   ```
+
+2. Start the services:
 
    ```bash
    # If running from the root directory:
