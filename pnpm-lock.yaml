@@ -8,6 +8,28 @@ importers:
 
   .: {}
 
+  packages/consumer:
+    dependencies:
+      hats-ponder-sdk:
+        specifier: workspace:*
+        version: link:../hats-ponder-sdk
+      hono:
+        specifier: ^4.5.0
+        version: 4.7.8
+      ponder:
+        specifier: ^0.10.14
+        version: 0.10.24(@types/node@20.17.43)(hono@4.7.8)(typescript@5.8.3)(viem@2.29.0)
+      viem:
+        specifier: ^2.21.3
+        version: 2.29.0(typescript@5.8.3)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.9.0
+        version: 20.17.43
+      typescript:
+        specifier: ^5.2.2
+        version: 5.8.3
+
   packages/hats-ponder-sdk:
     dependencies:
       hono:
@@ -32,28 +54,6 @@ importers:
       tsup:
         specifier: ^8.0.2
         version: 8.4.0(typescript@5.8.3)
-      typescript:
-        specifier: ^5.2.2
-        version: 5.8.3
-
-  packages/test-consumer:
-    dependencies:
-      hats-ponder-sdk:
-        specifier: workspace:*
-        version: link:../hats-ponder-sdk
-      hono:
-        specifier: ^4.5.0
-        version: 4.7.8
-      ponder:
-        specifier: ^0.10.14
-        version: 0.10.24(@types/node@20.17.43)(hono@4.7.8)(typescript@5.8.3)(viem@2.29.0)
-      viem:
-        specifier: ^2.21.3
-        version: 2.29.0(typescript@5.8.3)
-    devDependencies:
-      '@types/node':
-        specifier: ^20.9.0
-        version: 20.17.43
       typescript:
         specifier: ^5.2.2
         version: 5.8.3

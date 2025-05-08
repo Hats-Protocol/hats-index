@@ -6,6 +6,7 @@
   "scripts": {
     "build": "pnpm -r build",
     "sdk:dev": "pnpm --filter hats-ponder-sdk dev",
+    "sdk:build": "pnpm --filter hats-ponder-sdk build",
     "consumer:dev": "pnpm --filter consumer dev"
   },
   "engines": {
