@@ -5,15 +5,20 @@
   "type": "module",
   "scripts": {
     "build": "pnpm -r build",
-    "sdk:dev": "pnpm --filter hats-ponder-sdk dev",
-    "sdk:build": "pnpm --filter hats-ponder-sdk build",
+    "sdk": "pnpm --filter @hatsprotocol/ponder-sdk",
+    "sdk:dev": "pnpm --filter @hatsprotocol/ponder-sdk dev",
+    "sdk:build": "pnpm --filter @hatsprotocol/ponder-sdk build",
+    "consumer": "pnpm --filter consumer",
     "consumer:dev": "pnpm --filter consumer dev",
     "consumer:build": "pnpm --filter consumer build",
     "consumer:start": "pnpm --filter consumer start"
   },
   "engines": {
-    "node": ">=18.14",
+    "node": ">=22.0",
     "pnpm": ">=8.0.0"
+  },
+  "resolutions": {
+    "ponder": "0.10.21"
   },
   "packageManager": "pnpm@8.15.4"
 }

@@ -1,1 +1,1 @@
-export * from 'hats-ponder-sdk';
+export * from '@hatsprotocol/ponder-sdk';

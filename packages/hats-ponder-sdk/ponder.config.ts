@@ -12,11 +12,11 @@ export default createConfig({
   networks: {
     sepolia: {
       chainId: 11155111,
-      transport: http(process.env.PONDER_RPC_URL_11155111),
+      transport: http(process.env.SEPOLIA_HTTP_PROVIDER),
     },
     // baseSepolia: {
     //   chainId: 84532,
-    //   transport: http(process.env.PONDER_RPC_URL_84532),
+    //   transport: http(process.env.BASE_SEPOLIA_HTTP_PROVIDER),
     // },
   },
   contracts: {

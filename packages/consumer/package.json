@@ -10,8 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "hats-ponder-sdk": "workspace:*",
-    "ponder": "^0.10.14",
+    "@hatsprotocol/ponder-sdk": "workspace:*",
+    "ponder": "^0.10.20",
     "hono": "^4.5.0",
     "viem": "^2.21.3"
   },

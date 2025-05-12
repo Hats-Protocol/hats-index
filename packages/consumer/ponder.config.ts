@@ -1,5 +1,5 @@
 import { createConfig } from 'ponder';
-import { createHatsProtocol } from 'hats-ponder-sdk';
+import { createHatsProtocol } from '@hatsprotocol/ponder-sdk';
 
 export default createConfig({
   database: {

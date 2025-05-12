@@ -1,5 +1,5 @@
 {
-  "name": "hats-ponder-sdk",
+  "name": "@hatsprotocol/ponder-sdk",
   "version": "0.0.1",
   "type": "module",
   "main": "dist/index.js",
@@ -19,14 +19,14 @@
   "scripts": {
     "dev": "ponder dev",
     "start": "ponder start",
-    "build": "tsup",
+    "build": "tsup && tsc",
     "db": "ponder db",
     "codegen": "ponder codegen",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "ponder": "^0.10.14",
+    "ponder": "^0.10.20",
     "hono": "^4.5.0",
     "viem": "^2.21.3"
   },
@@ -38,7 +38,7 @@
     "tsup": "^8.0.2"
   },
   "peerDependencies": {
-    "ponder": "^0.10.14"
+    "ponder": "^0.10.20"
   },
   "engines": {
     "node": ">=18.14"
