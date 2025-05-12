@@ -8,7 +8,8 @@
     "sdk:dev": "pnpm --filter hats-ponder-sdk dev",
     "sdk:build": "pnpm --filter hats-ponder-sdk build",
     "consumer:dev": "pnpm --filter consumer dev",
-    "consumer:build": "pnpm --filter consumer build"
+    "consumer:build": "pnpm --filter consumer build",
+    "consumer:start": "pnpm --filter consumer start"
   },
   "engines": {
     "node": ">=18.14",
