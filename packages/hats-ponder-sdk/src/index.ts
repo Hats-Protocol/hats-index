@@ -1,5 +1,5 @@
 import { http } from 'viem';
-import type { Abi, Address } from 'viem';
+import type { Abi, Address, Hex } from 'viem';
 import { ponder } from 'ponder:registry';
 import { hat } from '../ponder.schema';
 import { HatsAbi } from '../abis/HatsAbi';
@@ -8,6 +8,7 @@ import { ERC6551RegistryAbi } from '../abis/ERC6551RegistryAbi';
 import { HatsModuleFactoryV0_6_0Abi } from '../abis/HatsModuleFactoryV0_6_0Abi';
 import { HatsModuleFactoryV0_7_0Abi } from '../abis/HatsModuleFactoryV0_7_0Abi';
 import { ModuleProxyFactoryAbi } from '../abis/ModuleProxyFactoryAbi';
+import { toHex } from 'viem';
 
 // Export schema
 export * from '../ponder.schema';
@@ -209,12 +210,15 @@ ponder.on('Hats:HatCreated', async ({ event, context }) => {
       ? 2147483647 // Use PostgreSQL integer max if the value is too large
       : Number(maxSupply);
 
+  // Convert id to hex the same way as the subgraph
+  const hatIdHex = '0x' + id.toString(16).padStart(64, '0');
+
   console.log('Indexing hat with chainId:', context.network.chainId);
 
   await context.db
     .insert(hat)
     .values({
-      id: id.toString(),
+      id: hatIdHex,
       chainId: Number(context.network.chainId),
       details,
       maxSupply: safeMaxSupply,
@@ -223,7 +227,7 @@ ponder.on('Hats:HatCreated', async ({ event, context }) => {
       mutable: mutable_,
       imageUri: imageURI,
       createdAt: event.block.timestamp.toString(),
-      lastHatId: id.toString(),
+      lastHatId: hatIdHex,
     })
     .onConflictDoNothing();
 });
@@ -232,10 +236,13 @@ ponder.on('Hats:HatCreated', async ({ event, context }) => {
 ponder.on('Hats:HatDetailsChanged', async ({ event, context }) => {
   const { hatId, newDetails } = event.args;
 
+  // Convert hatId to hex the same way as the subgraph
+  const hatIdHex = '0x' + hatId.toString(16).padStart(64, '0');
+
   await context.db
     .insert(hat)
     .values({
-      id: hatId.toString(),
+      id: hatIdHex,
       chainId: Number(context.network.chainId),
       details: newDetails,
     })
@@ -248,10 +255,13 @@ ponder.on('Hats:HatDetailsChanged', async ({ event, context }) => {
 ponder.on('Hats:HatEligibilityChanged', async ({ event, context }) => {
   const { hatId, newEligibility } = event.args;
 
+  // Convert hatId to hex the same way as the subgraph
+  const hatIdHex = '0x' + hatId.toString(16).padStart(64, '0');
+
   await context.db
     .insert(hat)
     .values({
-      id: hatId.toString(),
+      id: hatIdHex,
       chainId: Number(context.network.chainId),
       eligibility: newEligibility,
     })
