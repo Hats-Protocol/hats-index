@@ -1,5 +1,4 @@
 import { createConfig } from 'ponder';
-import { http } from 'viem';
 
 import { HatsAbi } from './abis/HatsAbi';
 import { HatsSignerGateFactoryAbi } from './abis/HatsSignerGateFactoryAbi';
@@ -9,10 +8,10 @@ import { HatsModuleFactoryV0_7_0Abi } from './abis/HatsModuleFactoryV0_7_0Abi';
 import { ModuleProxyFactoryAbi } from './abis/ModuleProxyFactoryAbi';
 
 export default createConfig({
-  networks: {
+  chains: {
     sepolia: {
-      chainId: 11155111,
-      transport: http(process.env.SEPOLIA_HTTP_PROVIDER),
+      id: 11155111,
+      rpc: process.env.SEPOLIA_HTTP_PROVIDER,
     },
     // baseSepolia: {
     //   chainId: 84532,
@@ -22,7 +21,7 @@ export default createConfig({
   contracts: {
     Hats: {
       abi: HatsAbi,
-      network: {
+      chain: {
         sepolia: {
           address: '0x3bc1A0Ad72417f2d411118085256fC53CBdDd137',
           startBlock: 5516083,
@@ -35,7 +34,7 @@ export default createConfig({
     },
     HatsSignerGateFactory: {
       abi: HatsSignerGateFactoryAbi,
-      network: {
+      chain: {
         sepolia: {
           address: '0x5CB8a5B063B7E94cF39E8A8813A777f49B8DD050',
           startBlock: 4929153,
@@ -48,7 +47,7 @@ export default createConfig({
     },
     ERC6551Registry: {
       abi: ERC6551RegistryAbi,
-      network: {
+      chain: {
         sepolia: {
           address: '0x000000006551c19487814612e58FE06813775758',
           startBlock: 5199209,
@@ -61,7 +60,7 @@ export default createConfig({
     },
     HatsModuleFactoryV0_6_0: {
       abi: HatsModuleFactoryV0_6_0Abi,
-      network: {
+      chain: {
         sepolia: {
           address: '0xfE661c01891172046feE16D3a57c3Cf456729efA',
           startBlock: 4655267,
@@ -74,7 +73,7 @@ export default createConfig({
     },
     HatsModuleFactoryV0_7_0: {
       abi: HatsModuleFactoryV0_7_0Abi,
-      network: {
+      chain: {
         sepolia: {
           address: '0x0a3f85fa597B6a967271286aA0724811acDF5CD9',
           startBlock: 5516083,
@@ -87,7 +86,7 @@ export default createConfig({
     },
     ModuleProxyFactory: {
       abi: ModuleProxyFactoryAbi,
-      network: {
+      chain: {
         sepolia: {
           address: '0x000000000000aDdB49795b0f9bA5BC298cDda236',
           startBlock: 7201757,
