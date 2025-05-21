@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src/**/*.ts", "abis/**/*.ts", "ponder.config.ts", "ponder.schema.ts"],
+  "include": ["src/**/*.ts", "abis/**/*.ts", "ponder.config.ts", "ponder.schema.ts", "tsup.config.ts"],
   "compilerOptions": {
     "declaration": true,
     "outDir": "./dist"

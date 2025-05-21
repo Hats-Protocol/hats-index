@@ -3,12 +3,12 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   // eslint.configs.recommended,
-  tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.recommended,
   {
     languageOptions: {
       parserOptions: {
         projectService: {
-          allowDefaultProject: ['*.js'],
+          allowDefaultProject: ['*.js', 'ponder.config.ts', 'ponder.schema.ts'],
         },
         tsconfigRootDir: import.meta.dirname,
       },

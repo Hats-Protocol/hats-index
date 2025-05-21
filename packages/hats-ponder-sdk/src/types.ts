@@ -1,4 +1,15 @@
-// import type { Contract, EventFor } from 'ponder';
+// import type { Contract, EventFor } from 'ponder:registry';
+
+interface HatsChainConfig {
+  rpc: string;
+}
+
+export type ChainName = 'sepolia' | 'baseSepolia';
+
+export interface HatsProtocolConfig {
+  chains: Partial<{ [key in ChainName]: HatsChainConfig }>;
+}
+
 // import { HatsModuleFactoryV0_7_0Abi } from '../abis/HatsModuleFactoryV0_7_0Abi';
 // import { Erc20EligibilityAbi } from '../abis/Erc20EligibilityAbi';
 // import { Erc721EligibilityAbi } from '../abis/Erc721EligibilityAbi';

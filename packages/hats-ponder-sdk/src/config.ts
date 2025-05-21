@@ -1,23 +1,16 @@
 import type { Abi, Address } from 'viem';
 import type { ChainConfig, ContractConfig } from 'ponder';
+
 import { HatsAbi } from '../abis/HatsAbi';
 import { HatsSignerGateFactoryAbi } from '../abis/HatsSignerGateFactoryAbi';
 import { ERC6551RegistryAbi } from '../abis/ERC6551RegistryAbi';
 import { HatsModuleFactoryV0_6_0Abi } from '../abis/HatsModuleFactoryV0_6_0Abi';
 import { HatsModuleFactoryV0_7_0Abi } from '../abis/HatsModuleFactoryV0_7_0Abi';
 import { ModuleProxyFactoryAbi } from '../abis/ModuleProxyFactoryAbi';
+import { chainStringToChainId } from './utils';
+import { ChainName, HatsProtocolConfig } from './types';
 
-interface NetworkConfig {
-  rpc: string;
-}
-
-type Network = 'sepolia' | 'baseSepolia';
-
-export interface HatsProtocolConfig {
-  chains: Partial<{ [key in Network]: NetworkConfig }>;
-}
-
-const CONTRACT_ABIS = {
+export const CONTRACT_ABIS = {
   Hats: HatsAbi,
   HatsSignerGateFactory: HatsSignerGateFactoryAbi,
   ERC6551Registry: ERC6551RegistryAbi,
@@ -26,11 +19,11 @@ const CONTRACT_ABIS = {
   ModuleProxyFactory: ModuleProxyFactoryAbi,
 };
 
-const NETWORK_CONTRACTS = {
+export const NETWORK_CONTRACTS: Record<ChainName, Record<string, { address: Address; startBlock: number }>> = {
   sepolia: {
     Hats: {
       address: '0x3bc1A0Ad72417f2d411118085256fC53CBdDd137' as Address,
-      startBlock: 5516083,
+      startBlock: 4654775,
     },
     HatsSignerGateFactory: {
       address: '0x5CB8a5B063B7E94cF39E8A8813A777f49B8DD050' as Address,
@@ -81,26 +74,17 @@ const NETWORK_CONTRACTS = {
   },
 };
 
-const NETWORK_CHAIN_IDS = {
-  sepolia: 11155111,
-  baseSepolia: 84532,
-};
-
-const chainStringToChainId = (network: string) => {
-  return NETWORK_CHAIN_IDS[network as Network];
-};
-
 const getChainsConfig = (config: HatsProtocolConfig): Record<string, ChainConfig> => {
   const chains: Record<string, { id: number; rpc: string }> = {};
 
   for (const chain of Object.keys(config.chains)) {
     // skip chains that don't have a matching value
-    if (!NETWORK_CONTRACTS[chain as Network]) continue;
+    if (!NETWORK_CONTRACTS[chain as ChainName]) continue;
 
-    const rpc = config.chains[chain as Network]?.rpc;
+    const rpc = config.chains[chain as ChainName]?.rpc;
     if (!rpc) continue;
 
-    chains[chain] = { id: chainStringToChainId(chain), rpc };
+    chains[chain] = { id: chainStringToChainId(chain as ChainName), rpc };
   }
 
   return chains;
@@ -118,11 +102,12 @@ const getContractsConfig = (config: HatsProtocolConfig): Record<string, Contract
     // iterate chains passed in config
     for (const chain of Object.keys(config.chains)) {
       // skip chains that don't have a matching contract
-      if (!NETWORK_CONTRACTS[chain as Network][contract as keyof typeof NETWORK_CONTRACTS[Network]]) {
+      const chainContract = NETWORK_CONTRACTS[chain as ChainName][contract as keyof typeof NETWORK_CONTRACTS[ChainName]];
+      if (!chainContract) {
         continue;
       }
 
-      chainList[chain as Network] = NETWORK_CONTRACTS[chain as Network][contract as keyof typeof NETWORK_CONTRACTS[Network]];
+      chainList[chain as ChainName] = chainContract;
     }
 
     contracts[contract] = {
@@ -134,7 +119,8 @@ const getContractsConfig = (config: HatsProtocolConfig): Record<string, Contract
   return contracts;
 };
 
-export function createHatsIndex(config: HatsProtocolConfig) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createHatsIndex(config: HatsProtocolConfig): any {
   return {
     chains: getChainsConfig(config),
     contracts: getContractsConfig(config),
