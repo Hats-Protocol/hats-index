@@ -1,1 +1,0 @@
-declare module '@hatsprotocol/ponder-sdk';
