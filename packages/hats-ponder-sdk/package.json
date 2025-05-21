@@ -23,10 +23,10 @@
     "db": "ponder db",
     "codegen": "ponder codegen",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "ponder": "^0.10.20",
+    "ponder": "^0.11.4",
     "hono": "^4.5.0",
     "viem": "^2.21.3"
   },
@@ -38,7 +38,7 @@
     "tsup": "^8.0.2"
   },
   "peerDependencies": {
-    "ponder": "^0.10.20"
+    "ponder": "^0.11.4"
   },
   "engines": {
     "node": ">=18.14"

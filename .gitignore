@@ -24,7 +24,8 @@ dist/
 .env*.local
 .env*
 .env
+!.env.example
 
 # Ponder
-/generated/
-/.ponder/
+**/generated/
+**/.ponder/

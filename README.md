@@ -48,7 +48,7 @@ The schema and API files follow the same pattern. This is still experimental and
 
 ### Multichain Support
 
-Ponder provides powerful multichain support functionality. Our SDK follows the patterns outlined for use in Ponder versions `>0.10.x`. There were significant changes to Ponder's internal API outlined in the [Ponder Migration Guide](https://ponder.sh/docs/migration-guide).
+Ponder provides powerful multichain support functionality. Our SDK follows the patterns outlined for use in Ponder versions `>0.11.x`. There were significant changes to Ponder's internal API outlined in the [Ponder Migration Guide](https://ponder.sh/docs/migration-guide).
 
 ### Start Blocks
 
@@ -56,7 +56,7 @@ While testing and developing, the start blocks are set to be rather recent. This
 
 ## Initial Indexing
 
-Ponder >0.10 relies on the `onChainTable` function for the core indexing. Since we're still actively developing and testing, the indexing logic focuses primarily on the `hat` table creation.
+Ponder `>0.11.4` relies on the `onChainTable` function for the core indexing. Since we're still actively developing and testing, the indexing logic focuses primarily on the `hat` table creation.
 
 ## Running the Consumer
 

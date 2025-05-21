@@ -18,7 +18,7 @@
     "pnpm": ">=8.0.0"
   },
   "resolutions": {
-    "ponder": "0.10.21"
+    "ponder": "0.11.4"
   },
   "packageManager": "pnpm@8.15.4"
 }

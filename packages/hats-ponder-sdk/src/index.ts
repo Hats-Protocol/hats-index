@@ -213,13 +213,13 @@ ponder.on('Hats:HatCreated', async ({ event, context }) => {
   // Convert id to hex the same way as the subgraph
   const hatIdHex = '0x' + id.toString(16).padStart(64, '0');
 
-  console.log('Indexing hat with chainId:', context.network.chainId);
+  console.log('Indexing hat with chainId:', context.chain.id);
 
   await context.db
     .insert(hat)
     .values({
       id: hatIdHex,
-      chainId: Number(context.network.chainId),
+      chainId: Number(context.chain.id),
       details,
       maxSupply: safeMaxSupply,
       eligibility,
@@ -243,7 +243,7 @@ ponder.on('Hats:HatDetailsChanged', async ({ event, context }) => {
     .insert(hat)
     .values({
       id: hatIdHex,
-      chainId: Number(context.network.chainId),
+      chainId: Number(context.chain.id),
       details: newDetails,
     })
     .onConflictDoUpdate((existing) => ({
@@ -262,7 +262,7 @@ ponder.on('Hats:HatEligibilityChanged', async ({ event, context }) => {
     .insert(hat)
     .values({
       id: hatIdHex,
-      chainId: Number(context.network.chainId),
+      chainId: Number(context.chain.id),
       eligibility: newEligibility,
     })
     .onConflictDoUpdate((existing) => ({

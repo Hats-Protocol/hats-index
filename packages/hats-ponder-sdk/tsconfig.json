@@ -14,7 +14,8 @@
     // Language and environment
     "moduleResolution": "bundler",
     "module": "ESNext",
-    "noEmit": true,
+    "declaration": true,
+    "outDir": "./dist",
     "lib": ["ES2022"],
     "target": "ES2022",
 

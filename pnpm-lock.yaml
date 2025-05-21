@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  ponder: 0.10.21
+  ponder: 0.11.4
 
 importers:
 
@@ -20,8 +20,8 @@ importers:
         specifier: ^4.5.0
         version: 4.7.9
       ponder:
-        specifier: 0.10.21
-        version: 0.10.21(@types/node@20.17.46)(hono@4.7.9)(typescript@5.8.3)(viem@2.29.2)
+        specifier: 0.11.4
+        version: 0.11.4(@types/node@20.17.46)(hono@4.7.9)(typescript@5.8.3)(viem@2.29.2)
       viem:
         specifier: ^2.21.3
         version: 2.29.2(typescript@5.8.3)
@@ -39,8 +39,8 @@ importers:
         specifier: ^4.5.0
         version: 4.7.9
       ponder:
-        specifier: 0.10.21
-        version: 0.10.21(@types/node@20.17.46)(hono@4.7.9)(typescript@5.8.3)(viem@2.29.2)
+        specifier: 0.11.4
+        version: 0.11.4(@types/node@20.17.46)(hono@4.7.9)(typescript@5.8.3)(viem@2.29.2)
       viem:
         specifier: ^2.21.3
         version: 2.29.2(typescript@5.8.3)
@@ -831,8 +831,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@ponder/utils@0.2.5(typescript@5.8.3)(viem@2.29.2):
-    resolution: {integrity: sha512-koFko2vSezn8Ge7hmelvDTAIGQbkqhaxM/r+DjbuDbTqcYGheZZyHNN90vjOgNT2RlPxcfPaVum+o1RFlP8fgQ==}
+  /@ponder/utils@0.2.7(typescript@5.8.3)(viem@2.29.2):
+    resolution: {integrity: sha512-7BcDd8y6Dmi+Bys4D0m+BULH9ug2XZ5Lsa4CwGSsJrY4OIQJerib6TENzTFHGR65XBV1gu9xLct9pMz7RpvAKg==}
     peerDependencies:
       typescript: '>=5.0.4'
       viem: '>=2'
@@ -2590,8 +2590,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /ponder@0.10.21(@types/node@20.17.46)(hono@4.7.9)(typescript@5.8.3)(viem@2.29.2):
-    resolution: {integrity: sha512-/B+YH6rNTyj8ofJl9qc78MDNafPtuj6wRwUzxj4pZuPR9sP0EI/UOn/3HZK7pAPXKSaXjBqNVUKVIrLVNkubSA==}
+  /ponder@0.11.4(@types/node@20.17.46)(hono@4.7.9)(typescript@5.8.3)(viem@2.29.2):
+    resolution: {integrity: sha512-3FTmpgcL9Feit1nB6TYp+hnltbHcb1Ci86kMj044VPp3/BoHsH7EbMhmvvhv01B7G0hA8WfgZsh5vnLfAdMpWw==}
     engines: {node: '>=18.14'}
     hasBin: true
     peerDependencies:
@@ -2609,7 +2609,7 @@ packages:
       '@escape.tech/graphql-armor-max-depth': 2.4.0
       '@escape.tech/graphql-armor-max-tokens': 2.5.0
       '@hono/node-server': 1.13.3(hono@4.7.9)
-      '@ponder/utils': 0.2.5(typescript@5.8.3)(viem@2.29.2)
+      '@ponder/utils': 0.2.7(typescript@5.8.3)(viem@2.29.2)
       abitype: 0.10.3(typescript@5.8.3)
       ansi-escapes: 7.0.0
       commander: 12.1.0
