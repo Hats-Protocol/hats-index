@@ -1,13 +1,14 @@
-import { ponder } from 'ponder:registry';
+import { EventNames, ponder } from 'ponder:registry';
+
 import {
   processHatCreated,
   processHatDetailsChanged,
   processHatEligibilityChanged,
-  processHatToggleChanged,
-  processHatStatusChanged,
-  processHatMutabilityChanged,
-  processHatMaxSupplyChanged,
   processHatImageURIChanged,
+  processHatMaxSupplyChanged,
+  processHatMutabilityChanged,
+  processHatStatusChanged,
+  processHatToggleChanged,
   processTransferSingle,
   // processTopHatLinkRequested,
   // processTopHatLinked,
@@ -18,38 +19,38 @@ export * from '../ponder.schema';
 export * from './config';
 
 // Handle HatCreated events on Hats.sol
-ponder.on('Hats:HatCreated', processHatCreated);
+ponder.on('Hats:HatCreated' as EventNames, processHatCreated);
 
 // Handle HatDetailsChanged events on Hats.sol
-ponder.on('Hats:HatDetailsChanged', processHatDetailsChanged);
+ponder.on('Hats:HatDetailsChanged' as EventNames, processHatDetailsChanged);
 
 // Handle HatEligibilityChanged events on Hats.sol
-ponder.on('Hats:HatEligibilityChanged', processHatEligibilityChanged);
+ponder.on('Hats:HatEligibilityChanged' as EventNames, processHatEligibilityChanged);
 
 // Handle WearerStandingChanged events on Hats.sol
 // TODO how do we need to handle standing?
-// ponder.on('Hats:WearerStandingChanged', processWearerStandingChanged);
+// ponder.on('Hats:WearerStandingChanged' as EventNames, processWearerStandingChanged);
 
 // Handle HatStatusChanged events on Hats.sol
-ponder.on('Hats:HatStatusChanged', processHatStatusChanged);
+ponder.on('Hats:HatStatusChanged' as EventNames, processHatStatusChanged);
 
 // Handle HatToggleChanged events on Hats.sol
-ponder.on('Hats:HatToggleChanged', processHatToggleChanged);
+ponder.on('Hats:HatToggleChanged' as EventNames, processHatToggleChanged);
 
 // Handle HatMutabilityChanged events on Hats.sol
-ponder.on('Hats:HatMutabilityChanged', processHatMutabilityChanged);
+ponder.on('Hats:HatMutabilityChanged' as EventNames, processHatMutabilityChanged);
 
 // Handle HatMaxSupplyChanged events on Hats.sol
-ponder.on('Hats:HatMaxSupplyChanged', processHatMaxSupplyChanged);
+ponder.on('Hats:HatMaxSupplyChanged' as EventNames, processHatMaxSupplyChanged);
 
 // Handle HatImageURIChanged events on Hats.sol
-ponder.on('Hats:HatImageURIChanged', processHatImageURIChanged);
+ponder.on('Hats:HatImageURIChanged' as EventNames, processHatImageURIChanged);
 
 // Handle TransferSingle events on Hats.sol
-ponder.on('Hats:TransferSingle', processTransferSingle);
+ponder.on('Hats:TransferSingle' as EventNames, processTransferSingle);
 
 // Handle TopHatLinkRequested events on Hats.sol
-// ponder.on('Hats:TopHatLinkRequested', processTopHatLinkRequested);
+// ponder.on('Hats:TopHatLinkRequested' as EventNames, processTopHatLinkRequested);
 
 // Handle TopHatLinked events on Hats.sol
-// ponder.on('Hats:TopHatLinked', processTopHatLinked);
+// ponder.on('Hats:TopHatLinked' as EventNames, processTopHatLinked);

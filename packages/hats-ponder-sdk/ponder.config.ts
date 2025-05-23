@@ -1,10 +1,10 @@
 import { createConfig } from 'ponder';
 
-import { HatsAbi } from './abis/HatsAbi';
-import { HatsSignerGateFactoryAbi } from './abis/HatsSignerGateFactoryAbi';
 import { ERC6551RegistryAbi } from './abis/ERC6551RegistryAbi';
+import { HatsAbi } from './abis/HatsAbi';
 import { HatsModuleFactoryV0_6_0Abi } from './abis/HatsModuleFactoryV0_6_0Abi';
 import { HatsModuleFactoryV0_7_0Abi } from './abis/HatsModuleFactoryV0_7_0Abi';
+import { HatsSignerGateFactoryAbi } from './abis/HatsSignerGateFactoryAbi';
 import { ModuleProxyFactoryAbi } from './abis/ModuleProxyFactoryAbi';
 
 export default createConfig({

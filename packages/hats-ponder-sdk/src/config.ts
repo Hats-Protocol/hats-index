@@ -1,14 +1,14 @@
-import type { Abi, Address } from 'viem';
 import type { ChainConfig, ContractConfig } from 'ponder';
+import type { Abi, Address } from 'viem';
 
-import { HatsAbi } from '../abis/HatsAbi';
-import { HatsSignerGateFactoryAbi } from '../abis/HatsSignerGateFactoryAbi';
 import { ERC6551RegistryAbi } from '../abis/ERC6551RegistryAbi';
+import { HatsAbi } from '../abis/HatsAbi';
 import { HatsModuleFactoryV0_6_0Abi } from '../abis/HatsModuleFactoryV0_6_0Abi';
 import { HatsModuleFactoryV0_7_0Abi } from '../abis/HatsModuleFactoryV0_7_0Abi';
+import { HatsSignerGateFactoryAbi } from '../abis/HatsSignerGateFactoryAbi';
 import { ModuleProxyFactoryAbi } from '../abis/ModuleProxyFactoryAbi';
-import { chainStringToChainId } from './utils';
 import { ChainName, HatsProtocolConfig } from './types';
+import { chainStringToChainId } from './utils';
 
 export const CONTRACT_ABIS = {
   Hats: HatsAbi,
@@ -82,6 +82,7 @@ const getChainsConfig = (config: HatsProtocolConfig): Record<string, ChainConfig
     if (!NETWORK_CONTRACTS[chain as ChainName]) continue;
 
     const rpc = config.chains[chain as ChainName]?.rpc;
+    // skip chains that don't have an rpc
     if (!rpc) continue;
 
     chains[chain] = { id: chainStringToChainId(chain as ChainName), rpc };
@@ -102,8 +103,10 @@ const getContractsConfig = (config: HatsProtocolConfig): Record<string, Contract
     // iterate chains passed in config
     for (const chain of Object.keys(config.chains)) {
       // skip chains that don't have a matching contract
-      const chainContract = NETWORK_CONTRACTS[chain as ChainName][contract as keyof typeof NETWORK_CONTRACTS[ChainName]];
+      const chainContract =
+        NETWORK_CONTRACTS[chain as ChainName][contract as keyof (typeof NETWORK_CONTRACTS)[ChainName]];
       if (!chainContract) {
+        console.warn(`Contract ${contract} not found on chain ${chain}`);
         continue;
       }
 
@@ -119,8 +122,10 @@ const getContractsConfig = (config: HatsProtocolConfig): Record<string, Contract
   return contracts;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createHatsIndex(config: HatsProtocolConfig): any {
+export function createHatsIndex(config: HatsProtocolConfig): {
+  chains: Record<string, ChainConfig>;
+  contracts: Record<string, ContractConfig>;
+} {
   return {
     chains: getChainsConfig(config),
     contracts: getContractsConfig(config),

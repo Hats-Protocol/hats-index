@@ -1,42 +1,28 @@
-import { hatIdDecimalToHex, hatIdDecimalToIp } from '@hatsprotocol/sdk-v1-core';
-import { Event, Context } from 'ponder:registry';
+import { hatIdDecimalToHex, hatIdDecimalToIp, hatIdToTreeId } from '@hatsprotocol/sdk-v1-core';
+import crypto from 'crypto';
+import { Context, Event } from 'ponder:registry';
+import { zeroAddress } from 'viem';
 
-import { hatEvents, hats } from '../ponder.schema';
-import { CONTRACT_ABIS, NETWORK_CONTRACTS } from './config';
-import { ChainName } from './types';
-import { chainIdToChainName } from './utils';
-function handleMaxInt(num: bigint) {
-  // TODO is there an alternative to this?
-  return num > BigInt(2147483647)
-    ? 2147483647 // Use PostgreSQL integer max if the value is too large
-    : Number(num);
-};
-
-async function hatLevelLocal(context: Context, hatId: string): Promise<number> {
-  const { client } = context;
-  const chainName = chainIdToChainName(context.chain.id as number);
-  if (!chainName) {
-    throw new Error('Chain not found');
-  }
-  const address = NETWORK_CONTRACTS[chainName]?.Hats?.address;
-  if (!address) {
-    throw new Error('Hats contract not found');
-  }
-  const localHatLevel = await client.readContract({
-    abi: CONTRACT_ABIS.Hats,
-    address,
-    functionName: "getLocalHatLevel",
-    args: [hatId],
-  });
-  return localHatLevel;
-}
+import { badStandings, hatEvents, hats, treeHats, trees } from '../ponder.schema';
+import { handleMaxInt, hatLevelLocal } from './utils';
+import { giveHat, removeHat } from './wearers';
 
 export const processHatCreated = async ({ event, context }: { event: Event; context: Context }) => {
-  const { id, details, maxSupply, eligibility, toggle, mutable_, imageURI } =
-    event.args;
+  const { id, details, maxSupply, eligibility, toggle, mutable_, imageURI } = event.args;
 
   const levelAtLocalTree = await hatLevelLocal(context, id);
 
+  // TODO can we check the level at local tree and only create on new trees?
+  // create new tree if this is a top hat
+  if (levelAtLocalTree === 0) {
+    await context.db.insert(trees).values({
+      id: hatIdToTreeId(BigInt(id)),
+      chainId: Number(context.chain.id),
+      createdAt: event.block.timestamp.toString(),
+    });
+  }
+
+  // create new hat
   await context.db
     .insert(hats)
     .values({
@@ -54,112 +40,175 @@ export const processHatCreated = async ({ event, context }: { event: Event; cont
       createdAt: event.block.timestamp.toString(),
     })
     .onConflictDoNothing();
+
+  // add hat to tree
+  await context.db.insert(treeHats).values({
+    id: hatIdDecimalToHex(id),
+    chainId: Number(context.chain.id),
+    hatId: hatIdDecimalToHex(id),
+    treeId: hatIdToTreeId(BigInt(id)),
+    createdAt: event.block.timestamp.toString(),
+  });
 };
 
 export const processHatDetailsChanged = async ({ event, context }: { event: Event; context: Context }) => {
   const { hatId, newDetails } = event.args;
-  console.log('Hat details changed', hatIdDecimalToIp(hatId), newDetails);
 
-  await context.db
-    .update(hats, { id: hatIdDecimalToHex(hatId) })
-    .set({ details: newDetails });
+  // update hat details
+  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ details: newDetails });
 
-  // TODO create new HatDetailsChangedEvent
+  // create new HatDetailsChangedEvent
+  await context.db.insert(hatEvents).values({
+    id: crypto.randomUUID(),
+    chainId: Number(context.chain.id),
+    hatId: hatIdDecimalToHex(hatId),
+    event: 'HatDetailsChanged',
+    eventData: JSON.stringify({ newDetails }),
+  });
 };
 
 export const processHatEligibilityChanged = async ({ event, context }: { event: Event; context: Context }) => {
   const { hatId, newEligibility } = event.args;
-  console.log('Hat eligibility changed', hatIdDecimalToIp(hatId), newEligibility);
-  await context.db
-    .update(hats, { id: hatIdDecimalToHex(hatId) })
-    .set({ eligibility: newEligibility });
 
-  // TODO create new HatEligibilityChangedEvent
+  // update hat eligibility
+  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ eligibility: newEligibility });
+
+  // create new HatEligibilityChangedEvent
+  await context.db.insert(hatEvents).values({
+    id: crypto.randomUUID(),
+    chainId: Number(context.chain.id),
+    hatId: hatIdDecimalToHex(hatId),
+    event: 'HatEligibilityChanged',
+    eventData: JSON.stringify({ newEligibility }),
+  });
 };
-
 
 export const processHatStatusChanged = async ({ event, context }: { event: Event; context: Context }) => {
   const { hatId, newStatus } = event.args;
-  console.log('Hat status changed', hatIdDecimalToIp(hatId), newStatus);
 
-  await context.db
-    .update(hats, { id: hatIdDecimalToHex(hatId) })
-    .set({ status: newStatus });
+  // update hat status
+  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ status: newStatus });
 
-  // TODO create new HatStatusChangedEvent
+  // create new HatStatusChangedEvent
+  await context.db.insert(hatEvents).values({
+    id: crypto.randomUUID(),
+    chainId: Number(context.chain.id),
+    hatId: hatIdDecimalToHex(hatId),
+    event: 'HatStatusChanged',
+    eventData: JSON.stringify({ newStatus }),
+  });
 };
 
 export const processHatToggleChanged = async ({ event, context }: { event: Event; context: Context }) => {
   const { hatId, newToggle } = event.args;
-  console.log('Hat toggle changed', hatIdDecimalToIp(hatId), newToggle);
 
-  await context.db
-    .update(hats, { id: hatIdDecimalToHex(hatId) })
-    .set({ toggle: newToggle });
+  // update hat toggle
+  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ toggle: newToggle });
 
-  // TODO create new HatToggleChangedEvent
+  // create new HatToggleChangedEvent
+  await context.db.insert(hatEvents).values({
+    id: crypto.randomUUID(),
+    chainId: Number(context.chain.id),
+    hatId: hatIdDecimalToHex(hatId),
+    event: 'HatToggleChanged',
+    eventData: JSON.stringify({ newToggle }),
+  });
 };
 
 export const processHatMutabilityChanged = async ({ event, context }: { event: Event; context: Context }) => {
   const { hatId, newMutability } = event.args;
-  console.log('Hat mutability changed', hatIdDecimalToIp(hatId), newMutability);
 
-  await context.db
-    .update(hats, { id: hatIdDecimalToHex(hatId) })
-    .set({ mutability: newMutability });
+  // update hat mutability
+  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ mutable: newMutability });
 
-  // TODO create new HatMutabilityChangedEvent
+  // create new HatMutabilityChangedEvent
+  await context.db.insert(hatEvents).values({
+    id: crypto.randomUUID(),
+    chainId: Number(context.chain.id),
+    hatId: hatIdDecimalToHex(hatId),
+    event: 'HatMutabilityChanged',
+    eventData: JSON.stringify({ newMutability }),
+  });
 };
 
 export const processHatMaxSupplyChanged = async ({ event, context }: { event: Event; context: Context }) => {
   const { hatId, newMaxSupply } = event.args;
-  console.log('Hat max supply changed', hatIdDecimalToIp(hatId), newMaxSupply);
 
-  await context.db
-    .update(hats, { id: hatIdDecimalToHex(hatId) })
-    .set({ maxSupply: newMaxSupply });
+  // update hat max supply
+  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ maxSupply: newMaxSupply });
 
-  // TODO create new HatMaxSupplyChangedEvent
+  // create new HatMaxSupplyChangedEvent
+  await context.db.insert(hatEvents).values({
+    id: crypto.randomUUID(),
+    chainId: Number(context.chain.id),
+    treeId: hatIdToTreeId(BigInt(hatId)),
+    hatId: hatIdDecimalToHex(hatId),
+    event: 'HatMaxSupplyChanged',
+  });
 };
-
 
 export const processHatImageURIChanged = async ({ event, context }: { event: Event; context: Context }) => {
   const { hatId, newImageURI } = event.args;
-  console.log('Hat image URI changed', hatIdDecimalToIp(hatId), newImageURI);
 
-  await context.db
-    .update(hats, { id: hatIdDecimalToHex(hatId) })
-    .set({ imageUri: newImageURI });
+  // update hat image URI
+  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ imageUri: newImageURI });
 
-  // TODO create new HatImageURIChangedEvent
+  // create new HatImageURIChangedEvent
+  await context.db.insert(hatEvents).values({
+    id: crypto.randomUUID(),
+    chainId: Number(context.chain.id),
+    hatId: hatIdDecimalToHex(hatId),
+    event: 'HatImageURIChanged',
+  });
 };
 
 export const processTransferSingle = async ({ event, context }: { event: Event; context: Context }) => {
   const { id, from, to } = event.args;
-  console.log('Hat transferred', hatIdDecimalToIp(id), from, to);
-  // TODO handle transfer events
-  // await context.db
-  //   .insert(hatEvents)
-  //   .values({
-  //     id: hatIdDecimalToHex(hatId),
-  //     chainId: Number(context.chain.id),
-  //     hatId: hatIdDecimalToHex(hatId),
-  //   });
 
-  // TODO create new HatMintedEvent
-}
+  if (from != zeroAddress && to != zeroAddress) {
+    //transfer event
+    await giveHat(context, hatIdDecimalToHex(id), to);
+    await removeHat(context, hatIdDecimalToHex(id), from);
+  } else if (from == zeroAddress && to != zeroAddress) {
+    // mint event
+    await giveHat(context, hatIdDecimalToHex(id), to);
+  } else if (from != zeroAddress && to == zeroAddress) {
+    // burn event
+    await removeHat(context, hatIdDecimalToHex(id), from);
+  }
+};
 
-// export const processWearerStandingChanged = async ({ event, context }: { event: Event; context: Context }) => {
-//   const { hatId, newWearerStanding } = event.args;
-//   console.log('Wearer standing changed', hatIdDecimalToIp(hatId), newWearerStanding);
+export const processWearerStandingChanged = async ({ event, context }: { event: Event; context: Context }) => {
+  const { hatId, wearerId, newWearerStanding } = event.args;
+  console.log('Wearer standing changed', hatIdDecimalToIp(hatId), newWearerStanding);
 
-//   await context.db
-//     .update(hats, { id: hatIdDecimalToHex(hatId) })
-//     .set({ wearerStanding: newWearerStanding });
+  if (newWearerStanding === 0) {
+    // remove wearer from bad standings
+    await context.db.delete(badStandings, { hatId: hatIdDecimalToHex(hatId), wearerId });
+  } else {
+    // add wearer to bad standings
+    await context.db.insert(badStandings).values({
+      id: crypto.randomUUID(),
+      hatId: hatIdDecimalToHex(hatId),
+      chainId: Number(context.chain.id),
+      wearerId,
+      standing: newWearerStanding,
+      createdAt: event.block.timestamp.toString(),
+    });
+  }
 
-//  // TODO create new WearerStandingChangedEvent
-// };
+  // create new WearerStandingChangedEvent
+  await context.db.insert(hatEvents).values({
+    id: crypto.randomUUID(),
+    chainId: Number(context.chain.id),
+    hatId: hatIdDecimalToHex(hatId),
+    treeId: hatIdToTreeId(BigInt(hatId)),
+    event: 'WearerStandingChanged',
+    eventData: JSON.stringify({ wearerId, newWearerStanding }),
+  });
+};
 
+// TODO handle linking of trees/hats
 // export const processTopHatLinkRequested = async ({ event, context }: { event: Event; context: Context }) => {
 //   const { hatId } = event.args;
 //   console.log('Top hat link requested', hatIdDecimalToIp(hatId));
@@ -170,7 +219,6 @@ export const processTransferSingle = async ({ event, context }: { event: Event; 
 
 //  // TODO create new TopHatLinkRequestedEvent
 // };
-
 
 // export const processTopHatLinked = async ({ event, context }: { event: Event; context: Context }) => {
 //   const { hatId } = event.args;
