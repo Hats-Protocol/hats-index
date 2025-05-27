@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    // Type checking
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+
+    // Interop constraints
+    "verbatimModuleSyntax": false,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+
+    // Language and environment
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "lib": ["ES2022"],
+    "target": "ES2022",
+
+    // Skip type checking for node modules
+    "skipLibCheck": true,
+
+    // Paths
+    "rootDir": ".",
+    "paths": {
+      "consumer": ["./packages/consumer/src"],
+      "@hatsprotocol/ponder-sdk": ["./packages/hats-ponder-sdk/src"]
+    },
+  },
+  "include": ["./**/*.ts", "./**/eslint.config.js"],
+  "exclude": ["node_modules", "dist"]
+}

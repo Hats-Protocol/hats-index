@@ -1,5 +1,6 @@
 services:
   postgres:
+    container_name: hats-indexer-postgres
     image: postgres:15
     environment:
       POSTGRES_DB: hats_indexer

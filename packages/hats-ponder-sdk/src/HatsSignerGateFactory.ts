@@ -1,15 +1,15 @@
-import { ponder } from 'ponder:registry';
+import { Context, Event, EventNames, ponder } from 'ponder:registry';
 
 ponder.on(
-  'HatsSignerGateFactory:HatsSignerGateSetup',
-  async ({ event, context }) => {
+  'HatsSignerGateFactory:HatsSignerGateSetup' as EventNames,
+  async ({ event, context }: { event: Event; context: Context }) => {
     console.log(event.args);
-  }
+  },
 );
 
 ponder.on(
-  'HatsSignerGateFactory:MultiHatsSignerGateSetup',
-  async ({ event, context }) => {
+  'HatsSignerGateFactory:MultiHatsSignerGateSetup' as EventNames,
+  async ({ event, context }: { event: Event; context: Context }) => {
     console.log(event.args);
-  }
+  },
 );

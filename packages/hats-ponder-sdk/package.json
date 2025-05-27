@@ -19,26 +19,21 @@
   "scripts": {
     "dev": "ponder dev",
     "start": "ponder start",
-    "build": "tsup && tsc",
+    "build": "tsup",
     "db": "ponder db",
     "codegen": "ponder codegen",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "ponder": "^0.10.20",
+    "drizzle-orm": "0.41.0",
+    "@hatsprotocol/sdk-v1-core": "^0.12.4",
     "hono": "^4.5.0",
+    "ponder": "^0.11.4",
     "viem": "^2.21.3"
   },
-  "devDependencies": {
-    "@types/node": "^20.9.0",
-    "eslint": "^8.53.0",
-    "eslint-config-ponder": "^0.10.14",
-    "typescript": "^5.2.2",
-    "tsup": "^8.0.2"
-  },
   "peerDependencies": {
-    "ponder": "^0.10.20"
+    "ponder": "^0.11.4"
   },
   "engines": {
     "node": ">=18.14"
