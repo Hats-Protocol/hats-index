@@ -1,5 +1,5 @@
-import { NETWORK_CHAIN_IDS } from '../constants';
-import { ChainName } from '../types';
+import { NETWORK_CHAIN_IDS } from "../constants";
+import { ChainName } from "../types";
 
 export const chainStringToChainId = (chainName: ChainName) => {
   return NETWORK_CHAIN_IDS[chainName];

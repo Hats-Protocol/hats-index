@@ -1,20 +1,20 @@
-import tseslint from 'typescript-eslint';
+import tseslint from "typescript-eslint";
 
-import baseConfig from '../../eslint.config.js';
+import baseConfig from "../../eslint.config.js";
 
 export default tseslint.config({
   extends: [baseConfig],
   languageOptions: {
     parserOptions: {
       projectService: {
-        allowDefaultProject: ['*.js', 'tsup.config.ts'],
+        allowDefaultProject: ["*.js"],
       },
       tsconfigRootDir: import.meta.dirname,
     },
   },
   rules: {
-    'no-console': 'warn',
-    '@typescript-eslint/no-unused-vars': 'warn',
-    '@typescript-eslint/no-explicit-any': 'warn',
+    "no-console": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
   },
 });

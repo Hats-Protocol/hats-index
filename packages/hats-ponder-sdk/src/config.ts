@@ -1,14 +1,14 @@
-import type { ChainConfig, ContractConfig } from 'ponder';
-import type { Abi, Address } from 'viem';
+import type { ChainConfig, ContractConfig } from "ponder";
+import type { Abi, Address } from "viem";
 
-import { ERC6551RegistryAbi } from '../abis/ERC6551RegistryAbi';
-import { HatsAbi } from '../abis/HatsAbi';
-import { HatsModuleFactoryV0_6_0Abi } from '../abis/HatsModuleFactoryV0_6_0Abi';
-import { HatsModuleFactoryV0_7_0Abi } from '../abis/HatsModuleFactoryV0_7_0Abi';
-import { HatsSignerGateFactoryAbi } from '../abis/HatsSignerGateFactoryAbi';
-import { ModuleProxyFactoryAbi } from '../abis/ModuleProxyFactoryAbi';
-import { ChainName, HatsProtocolConfig } from './types';
-import { chainStringToChainId } from './utils';
+import { ERC6551RegistryAbi } from "../abis/ERC6551RegistryAbi";
+import { HatsAbi } from "../abis/HatsAbi";
+import { HatsModuleFactoryV0_6_0Abi } from "../abis/HatsModuleFactoryV0_6_0Abi";
+import { HatsModuleFactoryV0_7_0Abi } from "../abis/HatsModuleFactoryV0_7_0Abi";
+import { HatsSignerGateFactoryAbi } from "../abis/HatsSignerGateFactoryAbi";
+import { ModuleProxyFactoryAbi } from "../abis/ModuleProxyFactoryAbi";
+import { ChainName, HatsProtocolConfig } from "./types";
+import { chainStringToChainId } from "./utils";
 
 export const CONTRACT_ABIS = {
   Hats: HatsAbi,
@@ -22,53 +22,53 @@ export const CONTRACT_ABIS = {
 export const NETWORK_CONTRACTS: Record<ChainName, Record<string, { address: Address; startBlock: number }>> = {
   sepolia: {
     Hats: {
-      address: '0x3bc1A0Ad72417f2d411118085256fC53CBdDd137' as Address,
+      address: "0x3bc1A0Ad72417f2d411118085256fC53CBdDd137" as Address,
       startBlock: 4654775,
     },
     HatsSignerGateFactory: {
-      address: '0x5CB8a5B063B7E94cF39E8A8813A777f49B8DD050' as Address,
+      address: "0x5CB8a5B063B7E94cF39E8A8813A777f49B8DD050" as Address,
       startBlock: 4929153,
     },
     ERC6551Registry: {
-      address: '0x000000006551c19487814612e58FE06813775758' as Address,
+      address: "0x000000006551c19487814612e58FE06813775758" as Address,
       startBlock: 5199209,
     },
     HatsModuleFactoryV0_6_0: {
-      address: '0xfE661c01891172046feE16D3a57c3Cf456729efA' as Address,
+      address: "0xfE661c01891172046feE16D3a57c3Cf456729efA" as Address,
       startBlock: 4655267,
     },
     HatsModuleFactoryV0_7_0: {
-      address: '0x0a3f85fa597B6a967271286aA0724811acDF5CD9' as Address,
+      address: "0x0a3f85fa597B6a967271286aA0724811acDF5CD9" as Address,
       startBlock: 5516083,
     },
     ModuleProxyFactory: {
-      address: '0x000000000000aDdB49795b0f9bA5BC298cDda236' as Address,
+      address: "0x000000000000aDdB49795b0f9bA5BC298cDda236" as Address,
       startBlock: 7201757,
     },
   },
   baseSepolia: {
     Hats: {
-      address: '0x3bc1A0Ad72417f2d411118085256fC53CBdDd137' as Address,
+      address: "0x3bc1A0Ad72417f2d411118085256fC53CBdDd137" as Address,
       startBlock: 3311010,
     },
     HatsSignerGateFactory: {
-      address: '0x0F22eFC6EA47b1EFF42D1A2a6E69440929400F86' as Address,
+      address: "0x0F22eFC6EA47b1EFF42D1A2a6E69440929400F86" as Address,
       startBlock: 3311010,
     },
     ERC6551Registry: {
-      address: '0x000000006551c19487814612e58FE06813775758' as Address,
+      address: "0x000000006551c19487814612e58FE06813775758" as Address,
       startBlock: 3311010,
     },
     HatsModuleFactoryV0_6_0: {
-      address: '0xfE661c01891172046feE16D3a57c3Cf456729efA' as Address,
+      address: "0xfE661c01891172046feE16D3a57c3Cf456729efA" as Address,
       startBlock: 3311010,
     },
     HatsModuleFactoryV0_7_0: {
-      address: '0x0a3f85fa597B6a967271286aA0724811acDF5CD9' as Address,
+      address: "0x0a3f85fa597B6a967271286aA0724811acDF5CD9" as Address,
       startBlock: 3311010,
     },
     ModuleProxyFactory: {
-      address: '0x000000000000aDdB49795b0f9bA5BC298cDda236' as Address,
+      address: "0x000000000000aDdB49795b0f9bA5BC298cDda236" as Address,
       startBlock: 3311010,
     },
   },
