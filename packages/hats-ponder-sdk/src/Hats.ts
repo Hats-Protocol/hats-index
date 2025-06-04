@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { Context, Event } from "ponder:registry";
 import { zeroAddress } from "viem";
 
-import { badStandings, hatEvents, hats, treeHats, trees } from "../ponder.schema";
+import { badStanding, hat, hatEvent, tree, treeHat } from "../ponder.schema";
 import { handleMaxInt, hatLevelLocal } from "./utils";
 import { giveHat, removeHat } from "./wearers";
 
@@ -15,9 +15,9 @@ export const processHatCreated = async ({ event, context }: { event: Event; cont
   // TODO can we check the level at local tree and only create on new trees?
   // create new tree if this is a top hat
   if (levelAtLocalTree === 0) {
-    const tree = context.db.find(trees, { id: hatIdToTreeId(BigInt(id)) });
-    if (!tree) {
-      await context.db.insert(trees).values({
+    const t = await context.db.find(tree, { id: hatIdToTreeId(BigInt(id)) });
+    if (!t) {
+      await context.db.insert(tree).values({
         id: hatIdToTreeId(BigInt(id)),
         chainId: Number(context.chain.id),
         createdAt: event.block.timestamp.toString(),
@@ -27,7 +27,7 @@ export const processHatCreated = async ({ event, context }: { event: Event; cont
 
   // create new hat
   await context.db
-    .insert(hats)
+    .insert(hat)
     .values({
       id: hatIdDecimalToHex(id),
       ipId: hatIdDecimalToIp(id),
@@ -45,7 +45,7 @@ export const processHatCreated = async ({ event, context }: { event: Event; cont
     .onConflictDoNothing();
 
   // add hat to tree
-  await context.db.insert(treeHats).values({
+  await context.db.insert(treeHat).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(id),
@@ -58,10 +58,10 @@ export const processHatDetailsChanged = async ({ event, context }: { event: Even
   const { hatId, newDetails } = event.args;
 
   // update hat details
-  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ details: newDetails });
+  await context.db.update(hat, { id: hatIdDecimalToHex(hatId) }).set({ details: newDetails });
 
   // create new HatDetailsChangedEvent
-  await context.db.insert(hatEvents).values({
+  await context.db.insert(hatEvent).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
@@ -74,10 +74,10 @@ export const processHatEligibilityChanged = async ({ event, context }: { event: 
   const { hatId, newEligibility } = event.args;
 
   // update hat eligibility
-  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ eligibility: newEligibility });
+  await context.db.update(hat, { id: hatIdDecimalToHex(hatId) }).set({ eligibility: newEligibility });
 
   // create new HatEligibilityChangedEvent
-  await context.db.insert(hatEvents).values({
+  await context.db.insert(hatEvent).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
@@ -90,10 +90,10 @@ export const processHatStatusChanged = async ({ event, context }: { event: Event
   const { hatId, newStatus } = event.args;
 
   // update hat status
-  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ status: newStatus });
+  await context.db.update(hat, { id: hatIdDecimalToHex(hatId) }).set({ status: newStatus });
 
   // create new HatStatusChangedEvent
-  await context.db.insert(hatEvents).values({
+  await context.db.insert(hatEvent).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
@@ -106,10 +106,10 @@ export const processHatToggleChanged = async ({ event, context }: { event: Event
   const { hatId, newToggle } = event.args;
 
   // update hat toggle
-  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ toggle: newToggle });
+  await context.db.update(hat, { id: hatIdDecimalToHex(hatId) }).set({ toggle: newToggle });
 
   // create new HatToggleChangedEvent
-  await context.db.insert(hatEvents).values({
+  await context.db.insert(hatEvent).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
@@ -122,10 +122,10 @@ export const processHatMutabilityChanged = async ({ event, context }: { event: E
   const { hatId, newMutability } = event.args;
 
   // update hat mutability
-  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ mutable: newMutability });
+  await context.db.update(hat, { id: hatIdDecimalToHex(hatId) }).set({ mutable: newMutability });
 
   // create new HatMutabilityChangedEvent
-  await context.db.insert(hatEvents).values({
+  await context.db.insert(hatEvent).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
@@ -138,10 +138,10 @@ export const processHatMaxSupplyChanged = async ({ event, context }: { event: Ev
   const { hatId, newMaxSupply } = event.args;
 
   // update hat max supply
-  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ maxSupply: newMaxSupply });
+  await context.db.update(hat, { id: hatIdDecimalToHex(hatId) }).set({ maxSupply: newMaxSupply });
 
   // create new HatMaxSupplyChangedEvent
-  await context.db.insert(hatEvents).values({
+  await context.db.insert(hatEvent).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     treeId: hatIdToTreeId(BigInt(hatId)),
@@ -154,10 +154,10 @@ export const processHatImageURIChanged = async ({ event, context }: { event: Eve
   const { hatId, newImageURI } = event.args;
 
   // update hat image URI
-  await context.db.update(hats, { id: hatIdDecimalToHex(hatId) }).set({ imageUri: newImageURI });
+  await context.db.update(hat, { id: hatIdDecimalToHex(hatId) }).set({ imageUri: newImageURI });
 
   // create new HatImageURIChangedEvent
-  await context.db.insert(hatEvents).values({
+  await context.db.insert(hatEvent).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
@@ -187,10 +187,10 @@ export const processWearerStandingChanged = async ({ event, context }: { event: 
 
   if (newWearerStanding === 0) {
     // remove wearer from bad standings
-    await context.db.delete(badStandings, { hatId: hatIdDecimalToHex(hatId), wearerId });
+    await context.db.delete(badStanding, { hatId: hatIdDecimalToHex(hatId), wearerId });
   } else {
     // add wearer to bad standings
-    await context.db.insert(badStandings).values({
+    await context.db.insert(badStanding).values({
       id: crypto.randomUUID(),
       hatId: hatIdDecimalToHex(hatId),
       chainId: Number(context.chain.id),
@@ -201,7 +201,7 @@ export const processWearerStandingChanged = async ({ event, context }: { event: 
   }
 
   // create new WearerStandingChangedEvent
-  await context.db.insert(hatEvents).values({
+  await context.db.insert(hatEvent).values({
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),

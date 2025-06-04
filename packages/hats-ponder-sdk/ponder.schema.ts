@@ -1,7 +1,7 @@
 import { onchainTable } from "ponder";
 
-export const hats = onchainTable(
-  "hats",
+export const hat = onchainTable(
+  "hat",
   (t) => ({
     id: t.text().primaryKey(),
     ipId: t.text(),
@@ -24,8 +24,8 @@ export const hats = onchainTable(
   }),
 );
 
-export const trees = onchainTable(
-  "trees",
+export const tree = onchainTable(
+  "tree",
   (t) => ({
     id: t.integer().primaryKey(),
     chainId: t.integer(),
@@ -36,8 +36,8 @@ export const trees = onchainTable(
   }),
 );
 
-export const treeHats = onchainTable(
-  "treeHats",
+export const treeHat = onchainTable(
+  "treeHat",
   (t) => ({
     id: t.text().primaryKey(),
     chainId: t.integer(),
@@ -50,8 +50,8 @@ export const treeHats = onchainTable(
   }),
 );
 
-export const badStandings = onchainTable(
-  "badStandings",
+export const badStanding = onchainTable(
+  "badStanding",
   (t) => ({
     id: t.text().primaryKey(),
     chainId: t.integer(),
@@ -65,7 +65,7 @@ export const badStandings = onchainTable(
   }),
 );
 
-export const hatEvents = onchainTable("hatEvents", (t) => ({
+export const hatEvent = onchainTable("hatEvent", (t) => ({
   id: t.text().primaryKey(),
   chainId: t.integer(),
   hatId: t.text(),
@@ -75,8 +75,8 @@ export const hatEvents = onchainTable("hatEvents", (t) => ({
   createdAt: t.text(),
 }));
 
-export const hatWearers = onchainTable(
-  "hatWearers",
+export const hatWearer = onchainTable(
+  "hatWearer",
   (t) => ({
     id: t.text().primaryKey(),
     chainId: t.integer(),
@@ -88,7 +88,7 @@ export const hatWearers = onchainTable(
   }),
 );
 
-export const wearers = onchainTable("wearers", (t) => ({
+export const wearer = onchainTable("wearer", (t) => ({
   id: t.text().primaryKey(),
   chainId: t.integer(),
   hatId: t.text(),
@@ -96,7 +96,7 @@ export const wearers = onchainTable("wearers", (t) => ({
   status: t.text(),
 }));
 
-export const modules = onchainTable("modules", (t) => ({
+export const module = onchainTable("module", (t) => ({
   id: t.text().primaryKey(),
   chainId: t.integer(),
   hatId: t.text(),
