@@ -1,7 +1,7 @@
-import { onchainTable } from 'ponder';
+import { onchainTable } from "ponder";
 
 export const hats = onchainTable(
-  'hats',
+  "hats",
   (t) => ({
     id: t.text().primaryKey(),
     ipId: t.text(),
@@ -25,7 +25,7 @@ export const hats = onchainTable(
 );
 
 export const trees = onchainTable(
-  'trees',
+  "trees",
   (t) => ({
     id: t.integer().primaryKey(),
     chainId: t.integer(),
@@ -37,7 +37,7 @@ export const trees = onchainTable(
 );
 
 export const treeHats = onchainTable(
-  'treeHats',
+  "treeHats",
   (t) => ({
     id: t.text().primaryKey(),
     chainId: t.integer(),
@@ -51,7 +51,7 @@ export const treeHats = onchainTable(
 );
 
 export const badStandings = onchainTable(
-  'badStandings',
+  "badStandings",
   (t) => ({
     id: t.text().primaryKey(),
     chainId: t.integer(),
@@ -65,7 +65,7 @@ export const badStandings = onchainTable(
   }),
 );
 
-export const hatEvents = onchainTable('hatEvents', (t) => ({
+export const hatEvents = onchainTable("hatEvents", (t) => ({
   id: t.text().primaryKey(),
   chainId: t.integer(),
   hatId: t.text(),
@@ -76,7 +76,7 @@ export const hatEvents = onchainTable('hatEvents', (t) => ({
 }));
 
 export const hatWearers = onchainTable(
-  'hatWearers',
+  "hatWearers",
   (t) => ({
     id: t.text().primaryKey(),
     chainId: t.integer(),
@@ -88,7 +88,7 @@ export const hatWearers = onchainTable(
   }),
 );
 
-export const wearers = onchainTable('wearers', (t) => ({
+export const wearers = onchainTable("wearers", (t) => ({
   id: t.text().primaryKey(),
   chainId: t.integer(),
   hatId: t.text(),
@@ -96,7 +96,7 @@ export const wearers = onchainTable('wearers', (t) => ({
   status: t.text(),
 }));
 
-export const modules = onchainTable('modules', (t) => ({
+export const modules = onchainTable("modules", (t) => ({
   id: t.text().primaryKey(),
   chainId: t.integer(),
   hatId: t.text(),

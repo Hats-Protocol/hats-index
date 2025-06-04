@@ -25,7 +25,7 @@
     "paths": {
       "consumer": ["./packages/consumer/src"],
       "@hatsprotocol/ponder-sdk": ["./packages/hats-ponder-sdk/src"]
-    },
+    }
   },
   "include": ["./**/*.ts", "./**/eslint.config.js"],
   "exclude": ["node_modules", "dist"]

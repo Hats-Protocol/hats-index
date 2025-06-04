@@ -1,9 +1,9 @@
-import { createConfig } from 'ponder';
-import type { DatabaseConfig } from 'ponder';
-import { createHatsIndex } from '@hatsprotocol/ponder-sdk';
+import { createHatsIndex } from "@hatsprotocol/ponder-sdk";
+import type { DatabaseConfig } from "ponder";
+import { createConfig } from "ponder";
 
 const database: DatabaseConfig = {
-  kind: 'postgres',
+  kind: "postgres",
   connectionString: process.env.DATABASE_URL,
 };
 
@@ -17,7 +17,7 @@ const { chains, contracts } = createHatsIndex({
     // celo: { rpc: process.env.CELO_HTTP_PROVIDER || '' },
 
     // testnets
-    sepolia: { rpc: process.env.SEPOLIA_HTTP_PROVIDER || '' },
+    sepolia: { rpc: process.env.SEPOLIA_HTTP_PROVIDER || "" },
     // baseSepolia: { rpc: process.env.BASE_SEPOLIA_HTTP_PROVIDER || '' },
   },
 });

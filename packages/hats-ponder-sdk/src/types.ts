@@ -4,7 +4,7 @@ interface HatsChainConfig {
   rpc: string;
 }
 
-export type ChainName = 'sepolia' | 'baseSepolia';
+export type ChainName = "sepolia" | "baseSepolia";
 
 export interface HatsProtocolConfig {
   chains: Partial<{ [key in ChainName]: HatsChainConfig }>;

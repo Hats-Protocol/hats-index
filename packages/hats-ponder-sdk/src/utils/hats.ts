@@ -1,8 +1,8 @@
-import { hatIdHexToDecimal } from '@hatsprotocol/sdk-v1-core';
-import { Context } from 'ponder:registry';
+import { hatIdHexToDecimal } from "@hatsprotocol/sdk-v1-core";
+import { Context } from "ponder:registry";
 
-import { CONTRACT_ABIS, NETWORK_CONTRACTS } from '../config';
-import { chainIdToChainName } from './chain';
+import { CONTRACT_ABIS, NETWORK_CONTRACTS } from "../config";
+import { chainIdToChainName } from "./chain";
 
 /**
  * Handle max int adjustment for uint256
@@ -26,16 +26,16 @@ export async function hatLevelLocal(context: Context, hatId: string): Promise<nu
   const { client } = context;
   const chainName = chainIdToChainName(context.chain.id as number);
   if (!chainName) {
-    throw new Error('Chain not found');
+    throw new Error("Chain not found");
   }
   const address = NETWORK_CONTRACTS[chainName]?.Hats?.address;
   if (!address) {
-    throw new Error('Hats contract not found');
+    throw new Error("Hats contract not found");
   }
   const localHatLevel = await client.readContract({
     abi: CONTRACT_ABIS.Hats,
     address,
-    functionName: 'getLocalHatLevel',
+    functionName: "getLocalHatLevel",
     args: [hatIdHexToDecimal(hatId)],
   });
   return localHatLevel;

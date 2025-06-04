@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@hatsprotocol/ponder-sdk": "workspace:*",
-    "ponder": "^0.11.4",
+    "ponder": "^0.11.11",
     "hono": "^4.5.0",
     "viem": "^2.21.3"
   }

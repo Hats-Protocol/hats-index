@@ -1,8 +1,8 @@
-import crypto from 'crypto';
-import { Context } from 'ponder:registry';
-import { getAddress } from 'viem';
+import crypto from "crypto";
+import { Context } from "ponder:registry";
+import { getAddress } from "viem";
 
-import { hatEvents, hatWearers, wearers } from '../ponder.schema';
+import { hatEvents, hatWearers, wearers } from "../ponder.schema";
 
 export async function giveHat(context: Context, hatId: string, wearerId: string): Promise<void> {
   // if wearer does not exist, create new
@@ -12,7 +12,7 @@ export async function giveHat(context: Context, hatId: string, wearerId: string)
   }
   // add wearer to the hat-wearers table
   await context.db.insert(hatWearers).values({
-    id: getAddress(wearerId),
+    id: crypto.randomUUID(),
     hatId,
     chainId: Number(context.chain.id),
     wearerId,
@@ -23,7 +23,7 @@ export async function giveHat(context: Context, hatId: string, wearerId: string)
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId,
-    event: 'HatMinted',
+    event: "HatMinted",
     eventData: JSON.stringify({ wearerId }),
   });
 }
@@ -39,7 +39,7 @@ export async function removeHat(context: Context, hatId: string, wearerId: strin
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId,
-    event: 'HatBurned',
+    event: "HatBurned",
     eventData: JSON.stringify({ wearerId }),
   });
 }

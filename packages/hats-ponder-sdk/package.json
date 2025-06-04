@@ -29,11 +29,11 @@
     "drizzle-orm": "0.41.0",
     "@hatsprotocol/sdk-v1-core": "^0.12.4",
     "hono": "^4.5.0",
-    "ponder": "^0.11.4",
+    "ponder": "^0.11.11",
     "viem": "^2.21.3"
   },
   "peerDependencies": {
-    "ponder": "^0.11.4"
+    "ponder": "^0.11.11"
   },
   "engines": {
     "node": ">=18.14"

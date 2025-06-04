@@ -1,11 +1,11 @@
-import { hatIdDecimalToHex, hatIdDecimalToIp, hatIdToTreeId } from '@hatsprotocol/sdk-v1-core';
-import crypto from 'crypto';
-import { Context, Event } from 'ponder:registry';
-import { zeroAddress } from 'viem';
+import { hatIdDecimalToHex, hatIdDecimalToIp, hatIdToTreeId } from "@hatsprotocol/sdk-v1-core";
+import crypto from "crypto";
+import { Context, Event } from "ponder:registry";
+import { zeroAddress } from "viem";
 
-import { badStandings, hatEvents, hats, treeHats, trees } from '../ponder.schema';
-import { handleMaxInt, hatLevelLocal } from './utils';
-import { giveHat, removeHat } from './wearers';
+import { badStandings, hatEvents, hats, treeHats, trees } from "../ponder.schema";
+import { handleMaxInt, hatLevelLocal } from "./utils";
+import { giveHat, removeHat } from "./wearers";
 
 export const processHatCreated = async ({ event, context }: { event: Event; context: Context }) => {
   const { id, details, maxSupply, eligibility, toggle, mutable_, imageURI } = event.args;
@@ -15,11 +15,14 @@ export const processHatCreated = async ({ event, context }: { event: Event; cont
   // TODO can we check the level at local tree and only create on new trees?
   // create new tree if this is a top hat
   if (levelAtLocalTree === 0) {
-    await context.db.insert(trees).values({
-      id: hatIdToTreeId(BigInt(id)),
-      chainId: Number(context.chain.id),
-      createdAt: event.block.timestamp.toString(),
-    });
+    const tree = context.db.find(trees, { id: hatIdToTreeId(BigInt(id)) });
+    if (!tree) {
+      await context.db.insert(trees).values({
+        id: hatIdToTreeId(BigInt(id)),
+        chainId: Number(context.chain.id),
+        createdAt: event.block.timestamp.toString(),
+      });
+    }
   }
 
   // create new hat
@@ -43,7 +46,7 @@ export const processHatCreated = async ({ event, context }: { event: Event; cont
 
   // add hat to tree
   await context.db.insert(treeHats).values({
-    id: hatIdDecimalToHex(id),
+    id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(id),
     treeId: hatIdToTreeId(BigInt(id)),
@@ -62,7 +65,7 @@ export const processHatDetailsChanged = async ({ event, context }: { event: Even
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
-    event: 'HatDetailsChanged',
+    event: "HatDetailsChanged",
     eventData: JSON.stringify({ newDetails }),
   });
 };
@@ -78,7 +81,7 @@ export const processHatEligibilityChanged = async ({ event, context }: { event: 
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
-    event: 'HatEligibilityChanged',
+    event: "HatEligibilityChanged",
     eventData: JSON.stringify({ newEligibility }),
   });
 };
@@ -94,7 +97,7 @@ export const processHatStatusChanged = async ({ event, context }: { event: Event
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
-    event: 'HatStatusChanged',
+    event: "HatStatusChanged",
     eventData: JSON.stringify({ newStatus }),
   });
 };
@@ -110,7 +113,7 @@ export const processHatToggleChanged = async ({ event, context }: { event: Event
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
-    event: 'HatToggleChanged',
+    event: "HatToggleChanged",
     eventData: JSON.stringify({ newToggle }),
   });
 };
@@ -126,7 +129,7 @@ export const processHatMutabilityChanged = async ({ event, context }: { event: E
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
-    event: 'HatMutabilityChanged',
+    event: "HatMutabilityChanged",
     eventData: JSON.stringify({ newMutability }),
   });
 };
@@ -143,7 +146,7 @@ export const processHatMaxSupplyChanged = async ({ event, context }: { event: Ev
     chainId: Number(context.chain.id),
     treeId: hatIdToTreeId(BigInt(hatId)),
     hatId: hatIdDecimalToHex(hatId),
-    event: 'HatMaxSupplyChanged',
+    event: "HatMaxSupplyChanged",
   });
 };
 
@@ -158,7 +161,7 @@ export const processHatImageURIChanged = async ({ event, context }: { event: Eve
     id: crypto.randomUUID(),
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
-    event: 'HatImageURIChanged',
+    event: "HatImageURIChanged",
   });
 };
 
@@ -180,7 +183,7 @@ export const processTransferSingle = async ({ event, context }: { event: Event; 
 
 export const processWearerStandingChanged = async ({ event, context }: { event: Event; context: Context }) => {
   const { hatId, wearerId, newWearerStanding } = event.args;
-  console.log('Wearer standing changed', hatIdDecimalToIp(hatId), newWearerStanding);
+  console.log("Wearer standing changed", hatIdDecimalToIp(hatId), newWearerStanding);
 
   if (newWearerStanding === 0) {
     // remove wearer from bad standings
@@ -203,7 +206,7 @@ export const processWearerStandingChanged = async ({ event, context }: { event: 
     chainId: Number(context.chain.id),
     hatId: hatIdDecimalToHex(hatId),
     treeId: hatIdToTreeId(BigInt(hatId)),
-    event: 'WearerStandingChanged',
+    event: "WearerStandingChanged",
     eventData: JSON.stringify({ wearerId, newWearerStanding }),
   });
 };
